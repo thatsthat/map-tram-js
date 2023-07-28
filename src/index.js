@@ -5,7 +5,7 @@ import t2 from "./t2";
 
 document.body.innerHTML = `<div id="map"></div>`;
 
-var map = L.map("map").setView([41.3778, 2.0977], 14);
+var map = L.map("map").setView([41.3748, 2.1], 14);
 
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -13,3 +13,16 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 L.geoJSON(t2).addTo(map);
+
+// Create marker for tram
+var iconSettings = {
+  mapIconUrl:
+    '<svg height="48" viewBox="0 -960 960 960" width="48" version="1.1" id="svg153" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <defs id="defs157" /> <circle style="fill:#018077;fill-opacity:1" id="path3459" cx="480" cy="-480" r="240" /></svg>',
+};
+
+var divIcon = L.divIcon({
+  className: "leaflet-data-marker",
+  html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
+});
+
+L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
