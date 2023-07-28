@@ -27,7 +27,9 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@mapbox/togeojson": "^0.16.0",
     "date-fns": "^2.29.2",
-    "leaflet": "^1.9.4"
+    "leaflet": "^1.9.4",
+    "leaflet-filelayer": "^1.2.0"
   }
 }
