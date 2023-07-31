@@ -17,7 +17,7 @@ L.geoJSON(t2).addTo(map);
 // Create marker for tram
 var iconSettings = {
   mapIconUrl:
-    '<svg height="48" viewBox="0 -960 960 960" width="48" version="1.1" id="svg153" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <defs id="defs157" /> <circle style="fill:#018077;fill-opacity:1" id="path3459" cx="480" cy="-480" r="240" /></svg>',
+    '<svg height="12" viewBox="0 -120 120 120" width="12" version="1.1" id="svg153" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"> <defs id="defs157" /> <circle style="fill:#018077;fill-opacity:1" id="path3459" cx="60" cy="-60" r="60" /></svg>',
 };
 
 var divIcon = L.divIcon({
