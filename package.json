@@ -29,6 +29,7 @@
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
     "date-fns": "^2.29.2",
+    "haversine-distance": "^1.2.1",
     "leaflet": "^1.9.4",
     "leaflet-filelayer": "^1.2.0"
   }

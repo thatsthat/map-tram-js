@@ -1,3 +1,5 @@
+import haversine from "haversine-distance";
+
 const t2Track = {
   type: "FeatureCollection",
   features: [
@@ -9,7 +11,6 @@ const t2Track = {
       geometry: {
         type: "LineString",
         coordinates: [
-          [2.143429691355827, 41.392264562862245],
           [2.143213748931885, 41.39220368769343],
           [2.142226921743178, 41.391957725649426],
           [2.14102415213053, 41.39165088698834],
@@ -290,4 +291,65 @@ const t2StopCoords = [
   [2.076183551619715, 41.37102953530953],
 ];
 
-export default t2Track;
+const trackCoords = t2Track.features[0].geometry.coordinates;
+
+// Array indicating the distance between track points
+const t2Distances = new Array(trackCoords.length - 2);
+t2Distances.fill(0);
+
+trackCoords.forEach((item, ind, arr) => {
+  if (ind != 0) {
+    t2Distances[ind - 1] = haversine(arr[ind], arr[ind - 1]);
+  }
+});
+
+// Boolean array indicating the positions in the track that correspond to a stop
+const t2IsStop = new Array(trackCoords.length - 1);
+t2IsStop.fill(false);
+
+const trackLat = trackCoords.map((pos) => pos[0]);
+const t2StopLat = t2StopCoords.map((pos) => pos[0]);
+
+t2StopLat.forEach((item) => {
+  t2IsStop[trackLat.indexOf(item)] = true;
+});
+
+// Arrays indicating the distance to the origin stop
+const t2DistA = new Array(trackCoords.length - 1);
+t2DistA.fill(0);
+
+let distSinceLastStop = 0;
+t2DistA.forEach((item, ind, arr) => {
+  if (t2IsStop[ind]) {
+    distSinceLastStop = 0;
+  } else {
+    distSinceLastStop += t2Distances[ind];
+    arr[ind] = distSinceLastStop;
+  }
+});
+
+const t2DistR = new Array(trackCoords.length - 1);
+t2DistR.fill(0);
+const t2IsStopRev = t2IsStop.toReversed();
+const t2DistancesRev = t2Distances.toReversed();
+t2DistR.forEach((item, ind, arr) => {
+  if (t2IsStopRev[ind]) {
+    distSinceLastStop = 0;
+  } else {
+    distSinceLastStop += t2DistancesRev[ind];
+    arr[ind] = distSinceLastStop;
+  }
+});
+
+console.log(t2DistR);
+
+const t2 = {
+  track: t2Track,
+  stopNames: t2StopNames,
+  stopPos: t2StopCoords,
+  isStop: t2IsStop,
+  distA: t2DistA,
+  distR: t2DistR,
+};
+
+export default t2;

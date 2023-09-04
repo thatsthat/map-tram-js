@@ -1,7 +1,8 @@
 import "leaflet/dist/leaflet.css";
 import "./style.css";
 import L from "leaflet";
-import t2Track from "./t2";
+import t2 from "./t2";
+import haversine from "haversine-distance";
 
 document.body.innerHTML = `<div id="map"></div>`;
 
@@ -12,7 +13,7 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution: "© OpenStreetMap",
 }).addTo(map);
 
-L.geoJSON(t2Track).addTo(map);
+L.geoJSON(t2.track).addTo(map);
 
 // Create marker for tram
 var iconSettings = {
@@ -26,3 +27,5 @@ var divIcon = L.divIcon({
 });
 
 L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
+
+const coords = t2.track.features[0].geometry.coordinates;
