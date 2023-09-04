@@ -2,6 +2,8 @@ import "leaflet/dist/leaflet.css";
 import "./style.css";
 import L from "leaflet";
 import t2 from "./t2";
+import tramData from "./tramData";
+
 import haversine from "haversine-distance";
 
 document.body.innerHTML = `<div id="map"></div>`;
@@ -29,3 +31,5 @@ var divIcon = L.divIcon({
 L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
 
 const coords = t2.track.features[0].geometry.coordinates;
+
+tramData();

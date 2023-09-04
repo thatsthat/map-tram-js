@@ -341,8 +341,6 @@ t2DistR.forEach((item, ind, arr) => {
   }
 });
 
-console.log(t2DistR);
-
 const t2 = {
   track: t2Track,
   stopNames: t2StopNames,
