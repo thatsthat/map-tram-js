@@ -32,4 +32,14 @@ L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
 
 const coords = t2.track.features[0].geometry.coordinates;
 
-tramData();
+window.token = 0;
+window.data = 0;
+
+const id = setInterval(
+  // Use a self-invoking function to execute first time immediately
+  (function myFunction() {
+    tramData();
+    return myFunction;
+  })(),
+  31000
+);

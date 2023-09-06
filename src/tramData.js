@@ -1,7 +1,4 @@
 const tramData = () => {
-  var token = 0;
-  var data = 0;
-
   const fetchToken = async () => {
     try {
       const aBody = new URLSearchParams();
@@ -73,19 +70,17 @@ const tramData = () => {
       console.log(e);
     }
   };
-
-  const getInfo = async () => {
-    console.log(data);
-    const info = await fetchData(token);
+  (async () => {
+    const info = await fetchData(window.token);
     if (info.status === 401) {
       const tkn = await fetchToken();
-      token = tkn;
+      window.token = tkn;
       const info2 = await fetchData(tkn);
-      data = info2.data;
+      window.data = info2.data;
     } else {
-      data = info.data;
+      window.data = info.data;
     }
-  };
-  const id = setInterval(getInfo, 31000);
+    console.log(window.data);
+  })();
 };
 export default tramData;
