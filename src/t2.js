@@ -307,14 +307,19 @@ trackCoords.forEach((item, ind, arr) => {
 const t2IsStop = new Array(trackCoords.length - 1);
 t2IsStop.fill(false);
 
+// Array with the index in the track array corresponding to each stop
+const t2StopInd = new Array(t2StopCoords.length);
+
 const trackLat = trackCoords.map((pos) => pos[0]);
 const t2StopLat = t2StopCoords.map((pos) => pos[0]);
 
-t2StopLat.forEach((item) => {
-  t2IsStop[trackLat.indexOf(item)] = true;
+t2StopLat.forEach((item, ind) => {
+  const stopInd = trackLat.indexOf(item);
+  t2IsStop[stopInd] = true;
+  t2StopInd[ind] = stopInd;
 });
 
-// Arrays indicating the distance to the origin stop
+// Arrays indicating the distance to the origin stop (in both directions)
 const t2DistA = new Array(trackCoords.length - 1);
 t2DistA.fill(0);
 
@@ -341,10 +346,13 @@ t2DistR.forEach((item, ind, arr) => {
   }
 });
 
+// Index of the current origin stops (from the API data)
+
 const t2 = {
   track: t2Track,
   stopNames: t2StopNames,
   stopPos: t2StopCoords,
+  stopInd: t2StopInd,
   isStop: t2IsStop,
   distA: t2DistA,
   distR: t2DistR,

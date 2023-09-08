@@ -35,11 +35,8 @@ const coords = t2.track.features[0].geometry.coordinates;
 window.token = 0;
 window.data = 0;
 
-const id = setInterval(
-  // Use a self-invoking function to execute first time immediately
-  (function myFunction() {
-    tramData();
-    return myFunction;
-  })(),
-  31000
-);
+// Make first call to api immediatly when web loaded
+tramData(t2);
+
+// After first, make one call every 30 seconds
+const id = setInterval(tramData, 31000, t2);

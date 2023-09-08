@@ -1,4 +1,4 @@
-const tramData = () => {
+const tramData = (t2) => {
   const fetchToken = async () => {
     try {
       const aBody = new URLSearchParams();
@@ -32,7 +32,6 @@ const tramData = () => {
     try {
       const rawResponse = await fetch(
         "https://opendata.tram.cat/api/v1/activeVehicles?networkId=1&lineId=2",
-        //"https://opendata.tram.cat/api/v1/gtfsrealtime?networkId=1",
         {
           method: "GET",
           // prettier-ignore
@@ -45,20 +44,39 @@ const tramData = () => {
       try {
         const rStatus = await rawResponse.status;
         const rDataFull = await rawResponse.json();
+        rDataFull.forEach((tram, ind, arr) => {
+          const stopArrInd = t2.stopNames.indexOf(tram.originStopName);
+          const stopInd = t2.stopInd[stopArrInd];
+
+          let posInd = 0;
+          if (tram.courseDirection === "A") {
+            for (
+              let i = stopInd;
+              Math.floor(t2.distA[i]) <= Math.floor(tram.vehiclePosition);
+              i++
+            ) {
+              posInd = i;
+            }
+          } else if (tram.courseDirection === "R") {
+            for (
+              let i = stopInd;
+              Math.floor(t2.distA[i]) <= Math.floor(tram.vehiclePosition);
+              i--
+            ) {
+              posInd = i;
+            }
+          }
+          console.log(posInd);
+        });
+
         const rData = rDataFull.map((a) => {
           return {
             origin: a.originStopName,
             next: a.nextStopName,
             direction: a.courseDirection,
             pos: a.vehiclePosition,
-            //delay: a.delay,
-            time: Date.now(),
           };
         });
-        /*         const bufferRes = await rawResponse.arrayBuffer();
-        const pbf = new Pbf(new Uint8Array(bufferRes));
-        const obj = FeedMessage.read(pbf);
-        const rData = obj.entity; */
 
         const response = { data: rData, status: rStatus };
         return response;
