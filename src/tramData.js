@@ -1,4 +1,4 @@
-const tramData = (t2) => {
+const tramData = (t2, L, map, divIcon) => {
   const fetchToken = async () => {
     try {
       const aBody = new URLSearchParams();
@@ -55,7 +55,7 @@ const tramData = (t2) => {
               Math.floor(t2.distA[i]) <= Math.floor(tram.vehiclePosition);
               i++
             ) {
-              posInd = i;
+              posInd = i + 1;
             }
           } else if (tram.courseDirection === "R") {
             for (
@@ -63,18 +63,19 @@ const tramData = (t2) => {
               Math.floor(t2.distA[i]) <= Math.floor(tram.vehiclePosition);
               i--
             ) {
-              posInd = i;
+              posInd = i - 1;
             }
           }
-          console.log(posInd);
+          arr[ind].position = t2.track.features[0].geometry.coordinates[posInd];
         });
-
         const rData = rDataFull.map((a) => {
           return {
             origin: a.originStopName,
             next: a.nextStopName,
             direction: a.courseDirection,
-            pos: a.vehiclePosition,
+            dist: a.vehiclePosition,
+            pos: a.position,
+            id: a.vehicleId,
           };
         });
 
@@ -98,7 +99,12 @@ const tramData = (t2) => {
     } else {
       window.data = info.data;
     }
-    console.log(window.data);
+    data.forEach((tram, ind) => {
+      L.marker([tram.pos[1], tram.pos[0]], {
+        icon: divIcon,
+        id: ind,
+      }).addTo(map);
+    });
   })();
 };
 export default tramData;

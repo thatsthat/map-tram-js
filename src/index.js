@@ -28,7 +28,7 @@ var divIcon = L.divIcon({
   html: L.Util.template(iconSettings.mapIconUrl, iconSettings),
 });
 
-L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
+//L.marker([41.39028, 2.13541], { icon: divIcon, id: 0 }).addTo(map);
 
 const coords = t2.track.features[0].geometry.coordinates;
 
@@ -36,7 +36,7 @@ window.token = 0;
 window.data = 0;
 
 // Make first call to api immediatly when web loaded
-tramData(t2);
+tramData(t2, L, map, divIcon);
 
 // After first, make one call every 30 seconds
-const id = setInterval(tramData, 31000, t2);
+const id = setInterval(tramData, 31000, t2, L, map, divIcon);
