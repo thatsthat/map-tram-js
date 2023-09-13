@@ -34,6 +34,7 @@ const coords = t2.track.features[0].geometry.coordinates;
 
 window.token = 0;
 window.data = 0;
+window.trams = [];
 
 // Make first call to api immediatly when web loaded
 tramData(t2, L, map, divIcon);

@@ -99,11 +99,30 @@ const tramData = (t2, L, map, divIcon) => {
     } else {
       window.data = info.data;
     }
+    console.log(data);
     data.forEach((tram, ind) => {
-      L.marker([tram.pos[1], tram.pos[0]], {
+      /*       L.marker([tram.pos[1], tram.pos[0]], {
         icon: divIcon,
         id: ind,
-      }).addTo(map);
+      }).addTo(map); */
+      const elem = window.trams.find((item) => item.id === tram.id);
+      if (elem === undefined) {
+        // New train
+        const newTrain = {
+          id: tram.id,
+          marker: L.marker([tram.pos[1], tram.pos[0]], {
+            icon: divIcon,
+            id: ind,
+          }),
+        };
+        // Add the new train's marker to the map
+        newTrain.marker.addTo(map);
+        // Insert the new train into trains array
+        window.trams.push(newTrain);
+      } else {
+        // Existing train, update markers position
+        elem.marker.setLatLng([tram.pos[1], tram.pos[0]]);
+      }
     });
   })();
 };
