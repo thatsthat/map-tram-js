@@ -70,10 +70,10 @@ const tramData = (t2, L, map, divIcon) => {
         });
         const rData = rDataFull.map((a) => {
           return {
-            origin: a.originStopName,
-            next: a.nextStopName,
+            //origin: a.originStopName,
+            //next: a.nextStopName,
             direction: a.courseDirection,
-            dist: a.vehiclePosition,
+            //dist: a.vehiclePosition,
             pos: a.position,
             id: a.vehicleId,
           };
@@ -110,10 +110,16 @@ const tramData = (t2, L, map, divIcon) => {
         // New train
         const newTrain = {
           id: tram.id,
+          dir: tram.direction,
           marker: L.marker([tram.pos[1], tram.pos[0]], {
             icon: divIcon,
             id: ind,
           }),
+          /* marker: L.circleMarker([tram.pos[1], tram.pos[0]], {
+            radius: 10,
+            color: "#018077",
+            fillOpacity: 1,
+          }), */
         };
         // Add the new train's marker to the map
         newTrain.marker.addTo(map);
